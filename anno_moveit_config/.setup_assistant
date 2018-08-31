@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: anno_description
+    relative_path: urdf/manipulator/manipulator_model_v1/index.urdf.xacro
+  SRDF:
+    relative_path: config/manipulator_model.srdf
+  CONFIG:
+    author_name: wangbx
+    author_email: 779139218@qq.com
+    generated_timestamp: 1524954150

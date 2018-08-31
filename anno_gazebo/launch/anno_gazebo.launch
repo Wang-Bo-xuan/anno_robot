@@ -1,0 +1,36 @@
+<launch>
+    <!-- 为了方便管理与切换模型(机器人模型与世界模型)，这里将目录(而不是文件名)作为参数传入，打包后不便修改的launch文件可以在环境变量中export -->
+    <arg name="MANIPULATOR_MODEL" default="$(optenv MANIPULATOR_MODEL manipulator_model_v1)" />
+    <arg name="AGV_MODEL" default="$(optenv AGV_MODEL agv_model_v1)" />
+    <arg name="CHARGEMENT_MODEL" default="$(optenv CHARGEMENT_MODEL chargement_model_v1)" />
+    <arg name="CHARGER_MODEL" default="$(optenv CHARGER_MODEL charger_model_v1)" />
+
+    <arg name="CHARGE_WORLD" default="$(optenv CHARGE_WORLD charge_room_v1)" />
+
+    <!-- 将机械臂模型传入参数服务器 -->
+    <param name="manipulator_description" textfile="$(find anno_gazebo)/models/manipulator/$(arg MANIPULATOR_MODEL)/manipulator_model.urdf.xacro" />
+    <param name="agv_description" textfile="$(find anno_gazebo)/models/agv/$(arg AGV_MODEL)/agv_model.urdf.xacro" />
+    <param name="chargement_description" textfile="$(find anno_gazebo)/models/chargement/$(arg CHARGEMENT_MODEL)/chargement_model.urdf.xacro" />
+    <param name="charger_description" textfile="$(find anno_gazebo)/models/charger/$(arg CHARGER_MODEL)/charger_model.urdf.xacro" />
+
+    <!-- 将充电地图模型传入参数服务器(通过empty_world.launch间接传入参数服务器) -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find anno_gazebo)/worlds/charge_room/$(arg CHARGE_WORLD)/charge_room.world.xml" />
+    </include>
+
+    <!-- 使用gazebo加载机器人模型 -->
+    <node name="manipulator_loader" pkg="gazebo_ros" type="spawn_model"
+        args="-param manipulator_description -urdf -model manipulator_model -x 0.00 -y 0.00 -z 0.00" />
+    <!--node name="agv_loader" pkg="gazebo_ros" type="spawn_model"
+        args="-param agv_description -urdf -model agv_model -x 2.00 -y 0.00 -z 0.00" /-->
+    <node name="chargement_loader" pkg="gazebo_ros" type="spawn_model"
+        args="-param chargement_description -urdf -model chargement_model -x 0.00 -y 0.50 -z 0.00" />
+    <node name="charger_loader" pkg="gazebo_ros" type="spawn_model"
+        args="-param charger_description -urdf -model charger_model -x 0.00 -y 0.50 -z 1.0" />
+
+    <!-- 加载机械臂控制 -->
+    <param name="robot_description" textfile="$(find anno_gazebo)/models/manipulator/$(arg MANIPULATOR_MODEL)/manipulator_model.urdf.xacro" />
+    <rosparam file="$(find anno_gazebo)/config/controllers.yaml" command="load" />
+    <node name="manipulator_controller" pkg="controller_manager" type="spawner"
+        output="screen" args="arm_controller" />
+</launch>

@@ -1,0 +1,12 @@
+controller_manager_ns: /
+controller_list:
+  - name: arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - first_aix_link_to_first_aix_base_link_joint
+      - second_aix_link_to_first_aix_link_joint
+      - third_aix_link_to_second_aix_link_joint
+      - forth_aix_link_to_third_aix_link_joint
+      - fifth_aix_link_to_forth_aix_link_joint
+      - sixth_aix_link_to_fifth_aix_link_joint

@@ -1,0 +1,507 @@
+<?xml version="1.0"?>
+<robot name="manipulator_model"
+	xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:property name="M_PI" value="3.1415926" />
+	<xacro:property name="H_PI" value="1.5707963" />
+
+    <link name="base_link">
+        <visual>
+                <geometry>
+                    <box size="1e-6 1e-6 1e-6"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <box size="1e-6 1e-6 1e-6"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="100"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <link name="base_ment_link">
+        <visual>
+                <geometry>
+                    <box size="0.32 0.32 0.13"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <box size="0.32 0.32 0.13"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="10"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="base_link_to_base_ment_link_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_ment_link"/>
+        <origin xyz="0 0 0.065" rpy="0 0 0"/>
+    </joint>
+
+    <link name="first_aix_base_link">
+        <visual>
+                <geometry>
+                    <box size="0.3 0.3 0.016"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <box size="0.3 0.3 0.016"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="base_ment_link_to_first_aix_base_link_joint" type="fixed">
+        <parent link="base_ment_link"/>
+        <child link="first_aix_base_link"/>
+        <origin xyz="0 0 0.073" rpy="0 0 0"/>
+    </joint>
+
+	<link name="motor_link">
+        <visual>
+                <geometry>
+                    <box size="0.06 0.06 0.11"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <box size="0.06 0.06 0.11"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="motor_link_to_first_aix_base_link_joint" type="fixed">
+        <parent link="first_aix_base_link"/>
+        <child link="motor_link"/>
+        <origin xyz="0 -0.1 0.063" rpy="0 0 0"/>
+    </joint>
+
+	<link name="first_aix_link">
+        <visual>
+                <geometry>
+                    <cylinder length="0.33" radius="0.08"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <cylinder length="0.33" radius="0.08"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="first_aix_link_to_first_aix_base_link_joint" type="revolute">
+        <parent link="first_aix_base_link"/>
+        <child link="first_aix_link"/>
+        <origin xyz="0 0.035 0.173" rpy="0 0 0"/>
+		<axis xyz="0 0 1"/>
+        <limit effort ="1000.0" lower="-3.14159" upper="3.14159" velocity="0.5"/>
+    </joint>
+
+	<link name="second_aix_link">
+        <visual>
+                <geometry>
+                    <cylinder length="0.23" radius="0.05"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <cylinder length="0.23" radius="0.05"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="second_aix_link_to_first_aix_link_joint" type="revolute">
+        <parent link="first_aix_link"/>
+        <child link="second_aix_link"/>
+        <origin xyz="0 0 0.28" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+        <limit effort ="1000.0" lower="-2.0071" upper="2.0071" velocity="0.5"/>
+    </joint>
+
+	<link name="third_aix_link">
+        <visual>
+                <geometry>
+                    <cylinder length="0.1" radius="0.065"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <cylinder length="0.1" radius="0.065"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="third_aix_link_to_second_aix_link_joint" type="revolute">
+        <parent link="second_aix_link"/>
+        <child link="third_aix_link"/>
+        <origin xyz="0 0 0.165" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+        <limit effort ="1000.0" lower="-2.2689" upper="2.2689" velocity="0.5"/>
+    </joint>
+
+	<link name="forth_aix_link">
+        <visual>
+                <geometry>
+                    <cylinder length="0.16" radius="0.04"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <cylinder length="0.16" radius="0.04"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="forth_aix_link_to_third_aix_link_joint" type="revolute">
+        <parent link="third_aix_link"/>
+        <child link="forth_aix_link"/>
+        <origin xyz="0 0 0.13" rpy="0 0 0"/>
+		<axis xyz="0 0 1"/>
+        <limit effort ="1000.0" lower="-3.14159" upper="3.14159" velocity="0.5"/>
+    </joint>
+	
+	<link name="fifth_aix_link">
+        <visual>
+                <geometry>
+                    <cylinder length="0.06" radius="0.03"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <cylinder length="0.06" radius="0.03"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.05"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="fifth_aix_link_to_forth_aix_link_joint" type="revolute">
+        <parent link="forth_aix_link"/>
+        <child link="fifth_aix_link"/>
+        <origin xyz="0 0.04 0.11" rpy="-1.57 0 0"/>
+		<axis xyz="0 0 1"/>
+        <limit effort ="1000.0" lower="-3.14159" upper="3.14159" velocity="0.5"/>
+    </joint>
+
+	<link name="sixth_aix_link">
+        <visual>
+                <geometry>
+                    <cylinder length="0.03" radius="0.02"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <cylinder length="0.03" radius="0.02"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.05"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="sixth_aix_link_to_fifth_aix_link_joint" type="revolute">
+        <parent link="fifth_aix_link"/>
+        <child link="sixth_aix_link"/>
+        <origin xyz="0 -0.03 0.05" rpy="1.57 0 0"/>
+		<axis xyz="0 0 1"/>
+        <limit effort ="1000.0" lower="-3.14159" upper="3.14159" velocity="0.5"/>
+    </joint>
+
+    <!--gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
+        <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+            <jointName>first_aix_link_to_first_aix_base_link_joint,second_aix_link_to_first_aix_link_joint,third_aix_link_to_second_aix_link_joint,forth_aix_link_to_third_aix_link_joint,fifth_aix_link_to_forth_aix_link_joint,sixth_aix_link_to_fifth_aix_link_joint</jointName>
+        </plugin>
+    </gazebo>
+
+    <transmission name="first">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="first_aix_link_to_first_aix_base_link_joint">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>        
+        </joint>
+        <actuator name="motor0">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="second">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="second_aix_link_to_first_aix_link_joint">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>        
+        </joint>
+        <actuator name="motor1">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="third">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="third_aix_link_to_second_aix_link_joint">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>        
+        </joint>
+        <actuator name="motor2">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="forth">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="forth_aix_link_to_third_aix_link_joint">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>        
+        </joint>
+        <actuator name="motor3">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="fifth">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="fifth_aix_link_to_forth_aix_link_joint">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>        
+        </joint>
+        <actuator name="motor4">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="sixth">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="sixth_aix_link_to_fifth_aix_link_joint">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>        
+        </joint>
+        <actuator name="motor5">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission-->
+
+    <link name="laser_link">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.015 0.015 0.03" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.015 0.015 0.03" />
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="1e-5" />
+            <origin xyz="0.02 0 0" rpy="0 0 0" />
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e6" iyz="0" izz="1e-6" />
+        </inertial>
+    </link>
+
+    <joint name="laser_joint" type="fixed">
+        <origin xyz="0.1675 0 0.108" rpy=" 0 0 0" />
+        <parent link="base_ment_link" />
+        <child link="laser_link" />
+    </joint>
+
+    <!--gazebo reference="laser_link">
+        <sensor name= "hokuyo" type="gpu_ray">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>false</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-1.570796</min_angle>
+                        <max_angle>1.570796</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.01</min>
+                    <max>30.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+            </ray>
+            <plugin name="gpu_laser" filename="libgazebo_ros_gpu_laser.so">
+                <topicName>/manipulator_scan</topicName>
+                <frameName>/manipulator_laser</frameName>
+            </plugin>
+        </sensor>
+    </gazebo-->
+
+    <link name="grip_base_link">
+        <visual>
+                <geometry>
+                    <box size="1e-6 1e-6 1e-6"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue">
+                <color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <box size="1e-6 1e-6 1e-6"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.05"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="grip_base_link_to_sixth_aix_link_joint" type="fixed">
+        <parent link="sixth_aix_link"/>
+        <child link="grip_base_link"/>
+        <origin xyz="0 0 0.025" rpy="0 -1.57 0"/>
+    </joint>
+
+    <link name="grip_left_link">
+        <visual>
+                <geometry>
+                    <box size="0.04 0.005 0.01"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue">
+                <color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <box size="0.04 0.005 0.01"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.05"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="grip_left_link_to_grip_base_link_joint" type="prismatic">
+        <parent link="grip_base_link"/>
+        <child link="grip_left_link"/>
+        <origin xyz="0.025 0.015 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort ="1000.0" lower="-0.01" upper="0" velocity="0.5"/>
+    </joint>    
+
+    <link name="grip_right_link">
+        <visual>
+                <geometry>
+                    <box size="0.04 0.005 0.01"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="blue">
+                <color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                    <box size="0.04 0.005 0.01"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.05"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="grip_right_link_to_grip_base_link_joint" type="prismatic">
+        <parent link="grip_base_link"/>
+        <child link="grip_right_link"/>
+        <origin xyz="0.025 -0.015 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort ="1000.0" lower="0" upper="0.01" velocity="0.5"/>
+    </joint> 
+</robot>

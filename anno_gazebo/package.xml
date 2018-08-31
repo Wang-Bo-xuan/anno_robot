@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>anno_gazebo</name>
+  <version>0.0.0</version>
+  <description>The anno_gazebo package</description>
+
+  <maintainer email="779139218@qq.com">wangbx</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  
+  </export>
+</package>

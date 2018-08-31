@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot name="charger_model"
+	xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:property name="M_PI" value="3.1415926" />
+	<xacro:property name="H_PI" value="1.5707963" />
+
+    <link name="base_link">
+        <visual>
+                <geometry>
+                    <box size="1e-6 1e-6 1e-6"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                    <box size="1e-6 1e-6 1e-6"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <link name="charger_A_link">
+        <visual>
+                <geometry>
+                    <box size="0.12 0.03 0.02"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                    <box size="0.12 0.03 0.02"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="charger_A_link_to_base_link_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="charger_A_link"/>
+        <origin xyz="0 0 0.01" rpy="0 0 0"/>
+    </joint>
+
+    <link name="charger_B_link">
+        <visual>
+                <geometry>
+                    <cylinder length="0.05" radius="0.005"/>
+                </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                    <cylinder length="0.05" radius="0.005"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+
+    <joint name="charger_A_link_to_charger_B_link_joint" type="fixed">
+        <parent link="charger_A_link"/>
+        <child link="charger_B_link"/>
+        <origin xyz="0.085 0 0" rpy="0 1.57 0"/>
+    </joint>
+
+</robot>

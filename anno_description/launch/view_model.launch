@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="MODEL_TYPE" default="$(optenv MODEL_TYPE manipulator)" />
+	<arg name="MANIPULATOR_MODEL" default="$(optenv MANIPULATOR_MODEL manipulator_model_v1)" />
+	
+	<include file="$(find anno_description)/launch/include/robot_description.launch.xml" >
+		<arg name="MODEL_TYPE" value="$(arg MODEL_TYPE)" />
+		<arg name="MANIPULATOR_MODEL" value="$(arg MANIPULATOR_MODEL)" />
+	</include>
+
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find anno_description)/rviz/model.rviz" />
+</launch>
